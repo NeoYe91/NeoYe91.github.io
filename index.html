@@ -28,10 +28,23 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-          <h3>
-<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+          <h1>
+<a id="fragment" class="anchor" href="#fragment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>fragment</h1>
 
-<p>欢迎来到Neo's blog</p>
+<p>记录fragment知识点</p>
+
+<p>1、一个主Activity，有一个主页面布局。布局里的控件一般是通用的，例如标题栏，底部选项栏。内容呈现也是以控件为容器即ViewGroup，viewPager、listView、scrollview都属于viewGroup，他们内部可以有子控件比如一个button、imageview、edittext等等。这些viewGroup本身自带一些交互和方法，能够扩展或者自定义一些特性，而容器的具体内容则需要另外一个东西来装载。就是adapter内容适配器。</p>
+
+<p>2、内容适配器adapter主要工作是负责管理添加要呈现的内容到容器中，也可以直接在adapter里生成页面的内容（在pageAdapter中instantiateItem方法如果判断当前的fragment已存在，则只是让这个fragment视图重新attach，只有在不存在时才会去调用getItem方法，重写getItem方法来new一个新的fragment，如果想要刷新fragment则需要重写instantiateItem方法，设立fragment的刷新标志位，获取fragment的Tag。如果当前fragment需要刷新则 先remove这个fragment，再将新的fragment添加到fragmentManager里 PS.用FragmentTransaction的add方法，此时就需要用到fragmentTag，否则无法添加进去。最后将标志位重置）</p>
+
+<pre><code>  2.1 如果要在viewgroup里放入完全不同的adapter可以直接setAdapter方法，此方法中会先把原先的adapter里的每一个item销毁，然后清空，再装入新的adapter。
+
+  2.2 如果是adapter里增加某一页或删除某一页的内容（通过position得到）可以使用notifyDataChanged方法来刷新
+
+  2.3 如果是adapter里某一页的某一个view内容进行更新，则需要重写instantiate方法，在方法中找到view设置Tag，要更新时通过tag来找到对应的view进行更新
+</code></pre>
+
+<p>3、fragment就是每一页具体视图和内容的载体，一个activity可以包含多个fragment，一个fragment可以嵌入到多个activity中</p>
         </section>
 
         <aside id="sidebar">
